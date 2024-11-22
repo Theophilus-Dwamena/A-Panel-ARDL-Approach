@@ -28,13 +28,22 @@ Testing for stationarity in the time dimension in panel data analysis is crucial
 where for $i=1,\ldots,N$ number of countries,  and year $t=1,\ldots,T$, $\alpha_i$ is the fixed effects(constant) for country $i$, $\beta_{i}$ is the coefficient of time trend, $\rho_i$ is the auto-regressive coefficients of cross-section $i$, $\ \ (\alpha_i\beta_{i}t)$ is the deterministic component (may be 0, 1, $\alpha_i$, $\{\alpha_i, \beta_{i}t\}$) and $\mu_{it}$ is a stationary process.
 
 The general test hypotheses are series has a unit root or is non-stationary (null hypothesis) and series has a no unit root or is stationary (alternative hypothesis).  The panel unit root tests employed in this study are Levin, Lin and Chu (LLC) test [^7] and Im, Pesaran and Shin (IPS) test [^8]. Refer to [^1] for detailed explanation of the types of panel unit root tests used.
-
-
+The following Stata Codes were used:
+```Stata
 /* Panel Unit Root Test*/
 xtunitroot llc variable            /* LLC */
 xtunitroot llc variable, trend     /* LLC  with trend*/
 xtunitroot ips variable            /* IPS */ 
 xtunitroot ips variable, trend     /* IPS with trend */
+```
+And the results is as shown in the table below which reveal a mix of stationary [I(0)] and non-stationary [I(1)] , with 
+the dependent variable GDPC being integrated of order 1 [I(1)] . This indicates that the panel data is non-stationary, 
+making the Panel ARDL method suitable for assessing both short-term and long-term effects.
+![Screenshot 2024-11-22 171715](https://github.com/user-attachments/assets/e1136de7-15df-40af-8db7-37d128d45ec7)
+
+## Co‑integration test
+The panel ARDL method is a co-integration procedure in panel data analysis [38]. A a detailed explanation of the Pedroni cointegration test for panel data is provided in [39]. This test checks for the presence of a long-term dynamics in the [empirical model](README.md#empirical-model). Estimates of the long-run relationship are computed by the panel ARDL Error Correction Model (EMC). The panel 
+ARDL ECM is given as
 
 
 
