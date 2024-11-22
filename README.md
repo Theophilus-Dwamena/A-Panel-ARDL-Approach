@@ -31,11 +31,35 @@ The general test hypotheses are series has a unit root or is non-stationary (nul
 The following Stata Codes were used:
 ```Stata
 /* Panel Unit Root Test*/
-xtunitroot llc variable            /* LLC */
-xtunitroot llc variable, trend     /* LLC  with trend*/
-xtunitroot ips variable            /* IPS */ 
-xtunitroot ips variable, trend     /* IPS with trend */
+/* xtunitroot llc variable (LLC) */
+xtunitroot llc lGDPC 
+xtunitroot llc lCO2 
+xtunitroot llc lFP 
+xtunitroot llc lAVA 
+xtunitroot llc lPGR
+
+/* xtunitroot llc variable, trend (LLC  with trend)*/
+xtunitroot llc lGDPC, trend 
+xtunitroot llc lCO2, trend 
+xtunitroot llc lFP, trend 
+xtunitroot llc lAVA, trend 
+xtunitroot llc lPGR, trend
+
+/*xtunitroot ips variable (IPS) */
+xtunitroot ips lGDPC 
+xtunitroot ips lCO2 
+xtunitroot ips lFP 
+xtunitroot ips lAVA 
+xtunitroot ips lPGR
+ 
+/*xtunitroot ips variable, trend (IPS with trend) */
+xtunitroot ips lGDPC, trend 
+xtunitroot ips lCO2, trend 
+xtunitroot ips lFP, trend 
+xtunitroot ips lAVA, trend 
+xtunitroot ips lPGR, trend
 ```
+
 And the results is as shown in the [table](https://github.com/user-attachments/assets/e1136de7-15df-40af-8db7-37d128d45ec7) below which reveal a mix of stationary [I(0)] and non-stationary [I(1)] , with 
 the dependent variable GDPC being integrated of order 1 [I(1)] . This indicates that the panel data is non-stationary, 
 making the Panel ARDL method suitable for assessing both short-term and long-term effects.
@@ -76,7 +100,8 @@ where $\lambda$ is the error correction estimate, which estimates the speed of a
 
 The following Stata Codes were used:
 ```Stata
-
+/* Co-integration Analysis */
+xtcointtest pedroni lGDPC lCO2 lFP lAVA lPGR
 ```
 
 Results of ARDL bounds test to check for co-integration is showed in [table](https://github.com/user-attachments/assets/fc3d41aa-19f0-4106-87b2-f8e74157e2b7) below. With p - value less than 0.05 for the 
@@ -85,7 +110,52 @@ In the presence of co-integration, the model can examine both the long- and shor
 mation of long-term equilibrium relationships and short-term adjustments
 ![Screenshot 2024-11-22 173626](https://github.com/user-attachments/assets/fc3d41aa-19f0-4106-87b2-f8e74157e2b7)
 
+##  ARDL individual lag selection
+The unrestricted VectorAuto-Regressive(VAR) model indicate the optimal lag length order of each variable. See [^1] for detailed explanation.
+```Stata
+/* ARDL Individual Lag Selection */
+forval i = 1/14{
+ardl lGDPC lCO2 lFP lAVA lPGR if (country==`i'), maxlag ( 2 2 2 2 2 )
+matrix list e(lags)
+di
+}
+```
+This was chosen based on the most frequently occurring lag order across the countries. The optimal lag for the panel was (1,1,0,0,0).
 
+## Hausman MG tests
+The Hausman MG test, proposed by [^11], is a statistical tool used to determine the appropriateness of using a Mean Group, Pooled Mean Group, or Dynamic Fixed Effects estimators in panel data analysis. The Hausman MG test is a comparison between a consistent estimator (MG) and an efficient estimator (PMG), with the null hypothesis that the efficient estimator (PMG) is appropriate. If the null hypothesis is rejected, another test is needed between MG (consistent) and DFE (efficient) with the new null hypothesis suggesting that the DFE model is more appropriate. The test works by comparing the variance of the panel ARDL models with a chi-square $\chi^{2}$ distributed test statistic H given as:
+```math
+H = (\beta_{con}-\beta_{eff})^{'}(V_{con}-V_{eff})(\beta_{con}-\beta_{eff})
+```
+where $\beta_{con}$ and $\beta_{eff}$ are the coefficient vectors from the consistent and efficient estimators, and $V_{con}$ and $V_{eff}$ are the covariance matrix of the consistent and efficient estimator, respectively.
+
+The Hausman test results revealed the most robust estimator for the panel data analysis. The first test between MG and PMG revealed a significant p -value (0.0000)[^1] which lead to the rejection of homogeneity, making the PMG model unsuitable.
+```Stata
+/* Hausman MG Test */
+xtpmg d.lGDPC d.lCO2 d.lFP d.lAVA d.lPGR, lr(l.lGDPC lAVA lFP lCO2 lPGR) 
+ec(ECT) replace mg
+
+xtpmg d.lGDPC d.lCO2 d.lFP d.lAVA d.lPGR, lr(l.lGDPC lAVA lFP lCO2 lPGR) 
+ec(ECT) replace pmg
+
+hausman mg pmg, sigmamore
+```
+
+The second Hausman test between MG and DFE revealed a p-value(0.7105) more than 0.05 , hence we fail to reject the null hypothesis and conclude that the DFE estimator is the most appropriate choice.
+```Stata
+/* Hausman MG Test */
+xtpmg d.lGDPC d.lCO2 d.lFP d.lAVA d.lPGR, lr(l.lGDPC lAVA lFP lCO2 lPGR) 
+ec(ECT) replace mg
+
+xtpmg d.lGDPC d.lCO2 d.lFP d.lAVA d.lPGR, lr(l.lGDPC lAVA lFP lCO2 lPGR) 
+ec(ECT) replace dfe
+
+hausman mg DFE, sigmamore
+```
+
+
+
+ 
 ## References
 [^1]: Frimpong, T.D., Atchadé, M.N. & Tona Landu, T. Assessing the impact of CO2 emissions, food security and agriculture expansion on economic growth: a panel ARDL analysis. Discov Sustain 5, 424 (2024). https://doi.org/10.1007/s43621-024-00630-7
 [^2]: World Bank, Climate Change Knowledge Portal(2024), 2024. https://climateknowledgeportal.worldbank.org/, Accessed 10 May 2024.
@@ -98,3 +168,5 @@ ators. Accessed 11 May 2024.
 [^8]: Im KS, Pesaran MH, Shin Y. Testing for unit roots in heterogeneous panels. J Econom. 2003;115(1):53–74.
 [^9]: Muchapondwa E, Pimhidzai O. Modelling international tourism demand for zimbabwe. Int J Busand soc Sci. 2011;2(2):71.
 [^10]: Pedroni P. Panel cointegration; asymptotic and finite sample properties of pooled time series tests, with an application to the ppp hypothesis. Econom Theory. 2004;20:597–625. https://doi.org/10.1017/S0266466604203073
+[^11]: J. A. Hausman, Specification tests in econometrics, Econometrica: Journal of the econo
+metric society (1978) 1251–1271
