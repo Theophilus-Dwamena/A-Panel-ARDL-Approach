@@ -74,11 +74,16 @@ and for short-run relationship coefficients, we have:
 ```
 where $\lambda$ is the error correction estimate, which estimates the speed of adjustment to long-run equilibrium and requires a negative statistically significant value for stability.
 
-Results of ARDL bounds test to check for co-integration is showed in table below. With p - value less than 0.05 for the 
+The following Stata Codes were used:
+```Stata
+
+```
+
+Results of ARDL bounds test to check for co-integration is showed in [table](https://github.com/user-attachments/assets/fc3d41aa-19f0-4106-87b2-f8e74157e2b7) below. With p - value less than 0.05 for the 
 tests, it is sufficient to reject the null hypothesis in Co-integration test and conclude that there exists co-integration. 
 In the presence of co-integration, the model can examine both the long- and short-run dynamics, enabling the esti
 mation of long-term equilibrium relationships and short-term adjustments
-
+![Screenshot 2024-11-22 173626](https://github.com/user-attachments/assets/fc3d41aa-19f0-4106-87b2-f8e74157e2b7)
 
 
 ## References
