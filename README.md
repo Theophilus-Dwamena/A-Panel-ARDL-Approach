@@ -36,7 +36,7 @@ xtunitroot llc variable, trend     /* LLC  with trend*/
 xtunitroot ips variable            /* IPS */ 
 xtunitroot ips variable, trend     /* IPS with trend */
 ```
-And the results is as shown in the [table](https://private-user-images.githubusercontent.com/159527844/389010949-e1136de7-15df-40af-8db7-37d128d45ec7.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzIyOTMzOTUsIm5iZiI6MTczMjI5MzA5NSwicGF0aCI6Ii8xNTk1Mjc4NDQvMzg5MDEwOTQ5LWUxMTM2ZGU3LTE1ZGYtNDBhZi04ZGI3LTM3ZDEyOGQ0NWVjNy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMTIyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTEyMlQxNjMxMzVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0xNmJlYzM0MmQ5ZTQ0MzIxZWE3MGQ3ZThkMzEwYjdiZjBkZTE3NzRlMDBjZTc0ZWM0ZDhkNDI5NWFkYmU1NzNkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.Pvh6c3sz2cM7aIfgWYpJ7uRYNktMylpSlhDg1JRcXfI) below which reveal a mix of stationary [I(0)] and non-stationary [I(1)] , with 
+And the results is as shown in the [table](https://github.com/user-attachments/assets/e1136de7-15df-40af-8db7-37d128d45ec7) below which reveal a mix of stationary [I(0)] and non-stationary [I(1)] , with 
 the dependent variable GDPC being integrated of order 1 [I(1)] . This indicates that the panel data is non-stationary, 
 making the Panel ARDL method suitable for assessing both short-term and long-term effects.
 ![Screenshot 2024-11-22 171715](https://github.com/user-attachments/assets/e1136de7-15df-40af-8db7-37d128d45ec7)
