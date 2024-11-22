@@ -36,14 +36,48 @@ xtunitroot llc variable, trend     /* LLC  with trend*/
 xtunitroot ips variable            /* IPS */ 
 xtunitroot ips variable, trend     /* IPS with trend */
 ```
-And the results is as shown in the table below which reveal a mix of stationary [I(0)] and non-stationary [I(1)] , with 
+And the results is as shown in the [table](https://private-user-images.githubusercontent.com/159527844/389010949-e1136de7-15df-40af-8db7-37d128d45ec7.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzIyOTMzOTUsIm5iZiI6MTczMjI5MzA5NSwicGF0aCI6Ii8xNTk1Mjc4NDQvMzg5MDEwOTQ5LWUxMTM2ZGU3LTE1ZGYtNDBhZi04ZGI3LTM3ZDEyOGQ0NWVjNy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQxMTIyJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MTEyMlQxNjMxMzVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0xNmJlYzM0MmQ5ZTQ0MzIxZWE3MGQ3ZThkMzEwYjdiZjBkZTE3NzRlMDBjZTc0ZWM0ZDhkNDI5NWFkYmU1NzNkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.Pvh6c3sz2cM7aIfgWYpJ7uRYNktMylpSlhDg1JRcXfI) below which reveal a mix of stationary [I(0)] and non-stationary [I(1)] , with 
 the dependent variable GDPC being integrated of order 1 [I(1)] . This indicates that the panel data is non-stationary, 
 making the Panel ARDL method suitable for assessing both short-term and long-term effects.
 ![Screenshot 2024-11-22 171715](https://github.com/user-attachments/assets/e1136de7-15df-40af-8db7-37d128d45ec7)
 
 ## Co‑integration test
-The panel ARDL method is a co-integration procedure in panel data analysis [38]. A a detailed explanation of the Pedroni cointegration test for panel data is provided in [39]. This test checks for the presence of a long-term dynamics in the [empirical model](README.md#empirical-model). Estimates of the long-run relationship are computed by the panel ARDL Error Correction Model (EMC). The panel 
-ARDL ECM is given as
+The panel ARDL method is a co-integration procedure in panel data analysis [^9]. A a detailed explanation of the Pedroni cointegration test for panel data is provided in [^10]. This test checks for the presence of a long-term dynamics in the [empirical model](README.md#empirical-model). Estimates of the long-run relationship are computed by the panel ARDL Error Correction Model (EMC). The panel ARDL ECM is given as
+```math
+\begin{align}
+	\begin{split}
+		\Delta \ell\text{GDPC}_{it} =& \alpha + \sum_{k=1}^{p}\beta_{1k}\Delta\ell\text{GDPC}_{i,t-k} + \sum_{k=0}^{p}\beta_{2k}\Delta\ell\text{CO2}_{i,t-k} + \sum_{k=0}^{p}\beta_{3k}\Delta\ell\text{FP}_{i,t-k}\\
+		& + \sum_{k=0}^{p}\beta_{4k}\Delta\ell\text{AVA}_{i,t-k} + \sum_{k=0}^{p}\beta_{5k}\Delta\ell\text{PGR}_{i,t-k} + \delta_{1}\ell\text{GDPC}_{i,t-1}\\
+		&+ \delta_{2}\ell\text{CO2}_{i,t-1} + \delta_{3}\ell\text{FP}_{i,t-1} + \delta_{4}\ell\text{AVA}_{i,t-1} + \delta_{5}\ell\text{PGR}_{i,t-1} + \mu_{it},
+	\end{split}
+\end{align}
+```
+where for $i=1,\ldots,N$ number of countries,  and year $t=1,\ldots,T$, $\alpha$ is the drift term (constant + trend), $\beta$ is the short-term dynamics, $\delta$, the long-term dynamics, $m$ is the number of lagged differences in dependent variable $\ell$GDPC and $\mu_{it}$ the white noise error. The statistical hypotheses of the Pedroni co-integration test are No co-integration (null hypothesis) and co-integration (alternative hypothesis). When the test is statistically significant, we conclude the presence of co-integration and reject the null hypothesis H$_0$, thus when the $p$-value is less than or equal to the significant level.
+
+In the presence of co-integration, we can obtain the long-term coefficients $\beta_i$ from the model:
+```math
+\begin{align}
+	\begin{split}
+		\ell\text{GDPC}_{it} =& \alpha + \sum_{k=1}^{p}\beta_{1k}\ell\text{GDPC}_{i,t-k} + \sum_{k=0}^{p}\beta_{2k}\ell\text{CO2}_{i,t-k} + \sum_{k=0}^{p}\beta_{3k}\ell\text{FP}_{i,t-k}\\
+		& + \sum_{k=0}^{p}\beta_{4k}\ell\text{AVA}_{i,t-k} + \sum_{k=0}^{p}\beta_{5k}\ell\text{PGR}_{i,t-k} +  \mu_{it}
+	\end{split}
+\end{align}
+```
+and for short-run relationship coefficients, we have:
+```math
+\begin{align}
+	\begin{split}
+		\Delta \ell\text{GDPC}_{it} =& \alpha + \sum_{k=1}^{p}\beta_{1k}\Delta\ell\text{GDPC}_{i,t-k} + \sum_{k=0}^{p}\beta_{2k}\Delta\ell\text{CO2}_{i,t-k} + \sum_{k=0}^{p}\beta_{3k}\Delta\ell\text{FP}_{i,t-k}\\
+		& + \sum_{k=0}^{p}\beta_{4k}\Delta\ell\text{AVA}_{i,t-k} + \sum_{k=0}^{p}\beta_{5k}\Delta\ell\text{PGR}_{i,t-k} + \delta_{1}\ell\text{GDPC}_{i,t-1} + \lambda ECM_{it}
+	\end{split}
+\end{align}
+```
+where $\lambda$ is the error correction estimate, which estimates the speed of adjustment to long-run equilibrium and requires a negative statistically significant value for stability.
+
+Results of ARDL bounds test to check for co-integration is showed in table below. With p - value less than 0.05 for the 
+tests, it is sufficient to reject the null hypothesis in Co-integration test and conclude that there exists co-integration. 
+In the presence of co-integration, the model can examine both the long- and short-run dynamics, enabling the esti
+mation of long-term equilibrium relationships and short-term adjustments
 
 
 
@@ -57,3 +91,5 @@ ators. Accessed 11 May 2024.
 [^6]: Barbieri L. Panel unit root tests: a review, Serie Rossa: Economia - Quaderno N. 2005;43.
 [^7]: Levin A, Lin C-F, Chu C-SJ. Unit root tests in panel data: asymptotic and finite-sample properties. J Econom. 2002;108(1):1–24.
 [^8]: Im KS, Pesaran MH, Shin Y. Testing for unit roots in heterogeneous panels. J Econom. 2003;115(1):53–74.
+[^9]: Muchapondwa E, Pimhidzai O. Modelling international tourism demand for zimbabwe. Int J Busand soc Sci. 2011;2(2):71.
+[^10]: Pedroni P. Panel cointegration; asymptotic and finite sample properties of pooled time series tests, with an application to the ppp hypothesis. Econom Theory. 2004;20:597–625. https://doi.org/10.1017/S0266466604203073
