@@ -1,6 +1,8 @@
 # A-Panel-ARDL-Approach [^1]
-We aim to examine the effects of CO2 emissions, agricultural advancements, and food availability on economic growth in West Africa from 1990 to 2020,  using a panel ARDL approach with data from 14 countries. The analysis evaluates both long- and short-term effects. The data utilized for this study is secondary data for fourteen West African countries and was sourced from the World Bank’s Climate Change Knowledge Portal(CCKP) [^2] and World Development Indicators (WDI) database [^3]. The dependent variable is the GDPC. The natural logarithm transformation was applied to the variables using the formula y = ln(x) , where x is the original variable value and y is the transformed value. This transformation controlled the influence of extreme values [^4].
+We aim to examine the effects of CO2 emissions, agricultural advancements, and food availability on economic growth in West Africa from 1990 to 2020,  using a panel ARDL approach with data from 14 countries. [R Programming](Theophilus-Dwamena/A-Panel-ARDL-Approach/RCode) language was used to explore the data and Stata was used for the panel ARDL analysis. The analysis evaluates both long- and short-term effects. The data utilized for this study is secondary data for fourteen West African countries and was sourced from the World Bank’s Climate Change Knowledge Portal(CCKP) [^2] and World Development Indicators (WDI) database [^3]. The dependent variable is the GDPC. The natural logarithm transformation was applied to the variables using the formula y = ln(x) , where x is the original variable value and y is the transformed value. This transformation controlled the influence of extreme values [^4].
 
+[here](myLib/README.md)
+https://github.com/Theophilus-Dwamena/A-Panel-ARDL-Approach
 ## Empirical model
 The model specification is: 
 ```math 
@@ -28,6 +30,14 @@ Testing for stationarity in the time dimension in panel data analysis is crucial
 where for $i=1,\ldots,N$ number of countries,  and year $t=1,\ldots,T$, $\alpha_i$ is the fixed effects(constant) for country $i$, $\beta_{i}$ is the coefficient of time trend, $\rho_i$ is the auto-regressive coefficients of cross-section $i$, $\ \ (\alpha_i\beta_{i}t)$ is the deterministic component (may be 0, 1, $\alpha_i$, $\{\alpha_i, \beta_{i}t\}$) and $\mu_{it}$ is a stationary process.
 
 The general test hypotheses are series has a unit root or is non-stationary (null hypothesis) and series has a no unit root or is stationary (alternative hypothesis).  The panel unit root tests employed in this study are Levin, Lin and Chu (LLC) test [^7] and Im, Pesaran and Shin (IPS) test [^8]. Refer to [^1] for detailed explanation of the types of panel unit root tests used.
+
+
+/* Panel Unit Root Test*/
+xtunitroot llc variable            /* LLC */
+xtunitroot llc variable, trend     /* LLC  with trend*/
+xtunitroot ips variable            /* IPS */ 
+xtunitroot ips variable, trend     /* IPS with trend */
+
 
 
 ## References
